@@ -1,2 +1,2 @@
-# restyansible
-A part of cloudsup and cloudhopper . Includes novel way to implement restful Ansible.
+# flasksampleapp
+Contains flask sample app
