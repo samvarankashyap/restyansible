@@ -3,8 +3,17 @@ import json
 from flask import Flask
 from flask import render_template
 from flask import Flask, request, send_from_directory
+from glob import glob
 
 app = Flask(__name__,static_url_path='/static')
+
+def find(name, path):
+    for dir in os.listdir(path):
+        for file in os.listdir(path+dir+"/"):
+            if name in file:
+                return path+dir+"/"+file
+    
+
 
 @app.route('/')
 def index():
@@ -13,38 +22,18 @@ def index():
 
 @app.route('/getmoduleschema/<name>')
 def get_module_schema(name):
-    schema = {}
-    s = {}
-    schema['name'] = {}
-    schema['age'] = {}
-    schema['name']['type'] = 'string'
-    schema['name']['title'] = 'Name'
-    schema['name']['required'] = True
-    schema['age']['type'] = 'number'
-    schema['age']['title'] = 'Age'
-    s['schema'] = schema
-    """
-    schema =  {
-        "schema": {
-          "name": {
-            "type": 'string',
-            "title": 'Name',
-            "required": True
-          },
-          "age": {
-            "type": 'number',
-            "title": 'Age'
-          }
-        }
-    """
-    return json.dumps(s)
+    file_path =  find(name, "./schemas/")
+    schema = open(file_path, "r").read()
+    return schema
 
 @app.route('/listmodules/')
 def list_modules():
     modules_list = {}
     dirs = os.listdir("./schemas")
     for dir in dirs:
-        modules_list[dir] = os.listdir("./schemas/"+dir)
+        schema_files = os.listdir("./schemas/"+dir)
+        schema_files = [x.strip(".json") for x in schema_files]
+        modules_list[dir] = schema_files
     return json.dumps(modules_list)
 
 

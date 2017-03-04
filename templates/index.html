@@ -65,7 +65,6 @@ div.tab a:focus, .active {
 
 <div id="tab1" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-  <form></form>
 
   <table class = "table table-striped">
    
@@ -88,13 +87,9 @@ div.tab a:focus, .active {
 <div id="tab2" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
   <h3>Module Runner</h3>
-  <select class="selectpicker test">
-  <optgroup label="Camping">
-    <option>Tent</option>
-    <option>Flashlight</option>
-    <option>Toilet Paper</option>
-  </optgroup>
+  <select class="selectpicker test" id="module_runner_select">
   </select>
+  <form></form>
 </div>
 
 <div id="tab3" class="tabcontent">
@@ -125,7 +120,8 @@ document.getElementById("defaultOpen").click();
     <script type="text/javascript" src="/deps/jsv.js"></script>
     <script type="text/javascript" src="/deps/jsonform.js"></script>
     <script type="text/javascript">
-      $.get( "/getmoduleschema/test", function( json ) {
+    function update_module_runner_form(module_name){
+      $.get( "/getmoduleschema/"+module_name, function( json ) {
 	      jsonp = JSON.parse(json)
 	      jsonp["onSubmit"] = function (errors, values) {
                       if (errors) {
@@ -137,31 +133,48 @@ document.getElementById("defaultOpen").click();
                           '</p>');
                           }
                       }
-
+        $('form').html("");
         $('form').jsonForm(
 		jsonp
 	
 	);
             
       });
+    }
     </script>
     <script type="text/javascript">
     $( document ).ready(function() {
         console.log( "ready!" );
-        var html = "";
+        var schema_table_html = "";
+        var module_runner_select_html = "";
         $.get( "/listmodules", function( json ) {
             json = JSON.parse(json);
             for(module_group in json){
                 for(module_index in json[module_group]){
-                    html += "<tr>";
-                    html += "<td>" + module_group + "</td>";
-                    html += "<td>" + json[module_group][module_index] + "</td>";
-                    html += "<td> Delete, Edit</td>";
-                    html += "</tr>";
+                    schema_table_html += "<tr>";
+                    schema_table_html += "<td>" + module_group + "</td>";
+                    schema_table_html += "<td>" + json[module_group][module_index] + "</td>";
+                    schema_table_html += "<td> Delete, Edit</td>";
+                    schema_table_html += "</tr>";
                 }
             }
-            $("#schema_table_body").html(html);
-        });  
+            for(module_group in json){
+                module_runner_select_html += "<optgroup label="+module_group+">"
+                for(module_index in json[module_group]){
+
+                    module_runner_select_html += "<option>"+json[module_group][module_index]+"</option>";
+                }
+                module_runner_select_html += "</optgroup>";
+            }
+            $("#schema_table_body").html(schema_table_html);
+            $("#module_runner_select").html(module_runner_select_html);
+            var current_module = $("#module_runner_select").val();
+            update_module_runner_form(current_module);
+        });
+        $( "#module_runner_select" ).change(function() {
+            var current_module = $("#module_runner_select").val();
+            update_module_runner_form(current_module);
+        }); 
     });
     </script>
   </body>
