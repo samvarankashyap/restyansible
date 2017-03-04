@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Getting started with JSON Form</title>
+    <title>Resty Ansible using JSON forms </title>
     <link rel="stylesheet" style="text/css" href="/deps/bootstrap.css" />
     <style>
 body {font-family: "Lato", sans-serif;}
@@ -65,8 +65,23 @@ div.tab a:focus, .active {
 
 <div id="tab1" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-  <h1>Yayy !!! This is a JSON Form</h1>
   <form></form>
+
+  <table class = "table table-striped">
+   
+   <thead>
+      <tr>
+         <th>Module Group</th>
+         <th>Module Name</th>
+         <th>Operations</th>
+      </tr>
+   </thead>
+   
+   <tbody id="schema_table_body">
+   </tbody>
+   
+</table>
+
   <div id="res" class="alert"></div>
 </div>
 
@@ -129,6 +144,25 @@ document.getElementById("defaultOpen").click();
 	);
             
       });
+    </script>
+    <script type="text/javascript">
+    $( document ).ready(function() {
+        console.log( "ready!" );
+        var html = "";
+        $.get( "/listmodules", function( json ) {
+            json = JSON.parse(json);
+            for(module_group in json){
+                for(module_index in json[module_group]){
+                    html += "<tr>";
+                    html += "<td>" + module_group + "</td>";
+                    html += "<td>" + json[module_group][module_index] + "</td>";
+                    html += "<td> Delete, Edit</td>";
+                    html += "</tr>";
+                }
+            }
+            $("#schema_table_body").html(html);
+        });  
+    });
     </script>
   </body>
 </html>
