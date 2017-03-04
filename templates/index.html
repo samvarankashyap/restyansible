@@ -58,8 +58,8 @@ div.tab a:focus, .active {
 
 
 <div class="tab">
-  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab1')" id="defaultOpen">Tab1</a>
-  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab2')">Tab2</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab1')" id="defaultOpen">Schema Manager</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab2')">Module Runner</a>
   <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab3')">Tab3</a>
 </div>
 
@@ -72,7 +72,14 @@ div.tab a:focus, .active {
 
 <div id="tab2" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-  <h3>Tab2</h3>
+  <h3>Module Runner</h3>
+  <select class="selectpicker test">
+  <optgroup label="Camping">
+    <option>Tent</option>
+    <option>Flashlight</option>
+    <option>Toilet Paper</option>
+  </optgroup>
+  </select>
 </div>
 
 <div id="tab3" class="tabcontent">
