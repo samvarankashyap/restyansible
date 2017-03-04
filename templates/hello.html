@@ -103,6 +103,30 @@ document.getElementById("defaultOpen").click();
     <script type="text/javascript" src="/deps/jsv.js"></script>
     <script type="text/javascript" src="/deps/jsonform.js"></script>
     <script type="text/javascript">
+      $.get( "/getmoduleschema/test", function( json ) {
+      console.log(json);
+        var j = {
+        "schema": {
+          "name": {
+            "type": 'string',
+            "title": 'Name',
+            "required": true
+          },
+          "age": {
+            "type": 'number',
+            "title": 'Age'
+          }
+        }
+      }
+        $('form').jsonForm(
+		j
+	
+	);
+
+            
+      });
+
+      /*
       $('form').jsonForm({
         schema: {
           name: {
@@ -126,6 +150,7 @@ document.getElementById("defaultOpen").click();
           }
         }
       });
+     */
     </script>
   </body>
 </html>

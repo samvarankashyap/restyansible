@@ -1,3 +1,4 @@
+import json
 from flask import Flask
 from flask import render_template
 from flask import Flask, request, send_from_directory
@@ -10,6 +11,35 @@ def hello(name=None):
     return render_template('hello.html', name=name)
 
 
+@app.route('/getmoduleschema/<name>')
+def get_module_schema(name):
+    schema = {}
+    s = {}
+    schema['name'] = {}
+    schema['age'] = {}
+    schema['name']['type'] = 'string'
+    schema['name']['title'] = 'Name'
+    schema['name']['required'] = True
+    schema['age']['type'] = 'number'
+    schema['age']['title'] = 'Age'
+    s['schema'] = schema
+    """
+    schema =  {
+        "schema": {
+          "name": {
+            "type": 'string',
+            "title": 'Name',
+            "required": True
+          },
+          "age": {
+            "type": 'number',
+            "title": 'Age'
+          }
+        }
+    """
+    return json.dumps(s)
+
+
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('./static/js', path)
@@ -19,9 +49,11 @@ def send_js(path):
 def send_css(path):
     return send_from_directory('./static/css', path)
 
+
 @app.route('/deps/<path:path>')
 def send_deps(path):
     return send_from_directory('./static/deps', path)
+
 
 @app.route('/')
 def index():
