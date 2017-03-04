@@ -1,46 +1,131 @@
-<!doctype html>
-<title>Hello from Flask</title>
-{% if name %}
-  <h1>Hello {{ name }}!</h1>
-{% else %}
-  <h1>Hello World!</h1>
-{% endif %}
-<script src="/js/jquery.js"></script>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Getting started with JSON Form</title>
+    <link rel="stylesheet" style="text/css" href="/deps/bootstrap.css" />
+    <style>
+body {font-family: "Lato", sans-serif;}
 
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
 
-<!-- Optional theme -->
-<link rel="stylesheet" href="/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+/* Style the links inside the tab */
+div.tab a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
 
-<!-- Latest compiled and minified JavaScript -->
-<script src="/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+/* Change background color of links on hover */
+div.tab a:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab a:focus, .active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+/* Style the close button */
+.topright {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.topright:hover {color: red;}
+</style>
+  </head>
+  <body>
+
+
+<div class="tab">
+  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab1')" id="defaultOpen">Tab1</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab2')">Tab2</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab3')">Tab3</a>
+</div>
+
+<div id="tab1" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+  <h1>Yayy !!! This is a JSON Form</h1>
+  <form></form>
+  <div id="res" class="alert"></div>
+</div>
+
+<div id="tab2" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+  <h3>Tab2</h3>
+</div>
+
+<div id="tab3" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+  <h3>Tab3</h3>
+</div>
 
 <script>
-
-function highlight(text)
-{
-    inputText = document.getElementById("inputText")
-    var innerHTML = inputText.innerHTML
-    var index = innerHTML.indexOf(text);
-    if ( index >= 0 )
-    { 
-        innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-        inputText.innerHTML = innerHTML 
+function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
     }
-
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
 }
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
 </script>
-
-<button onclick="highlight('fox')">Highlight</button>
-
-<style>
-.highlight
-{
-background-color:yellow;
-}
-</style>
-
-<div id="inputText">
-The fox went over the fence
-</div>
+    <script type="text/javascript" src="/deps/jquery.min.js"></script>
+    <script type="text/javascript" src="/deps/underscore.js"></script>
+    <script type="text/javascript" src="/deps/jsv.js"></script>
+    <script type="text/javascript" src="/deps/jsonform.js"></script>
+    <script type="text/javascript">
+      $('form').jsonForm({
+        schema: {
+          name: {
+            type: 'string',
+            title: 'Name',
+            required: true
+          },
+          age: {
+            type: 'number',
+            title: 'Age'
+          }
+        },
+        onSubmit: function (errors, values) {
+          if (errors) {
+            $('#res').html('<p>I beg your pardon?</p>');
+          }
+          else {
+            $('#res').html('<p>Hello ' + values.name + '.' +
+              (values.age ? '<br/>You are ' + values.age + '.' : '') +
+              '</p>');
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

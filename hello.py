@@ -19,6 +19,9 @@ def send_js(path):
 def send_css(path):
     return send_from_directory('./static/css', path)
 
+@app.route('/deps/<path:path>')
+def send_deps(path):
+    return send_from_directory('./static/deps', path)
 
 @app.route('/')
 def index():
