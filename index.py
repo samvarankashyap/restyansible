@@ -1,3 +1,4 @@
+import os
 import json
 from flask import Flask
 from flask import render_template
@@ -37,6 +38,14 @@ def get_module_schema(name):
         }
     """
     return json.dumps(s)
+
+@app.route('/listmodules/')
+def list_modules():
+    modules_list = {}
+    dirs = os.listdir("./schemas")
+    for dir in dirs:
+        modules_list[dir] = os.listdir("./schemas/"+dir)
+    return json.dumps(modules_list)
 
 
 @app.route('/js/<path:path>')
