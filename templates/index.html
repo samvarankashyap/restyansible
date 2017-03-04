@@ -81,7 +81,6 @@ div.tab a:focus, .active {
    
 </table>
 
-  <div id="res" class="alert"></div>
 </div>
 
 <div id="tab2" class="tabcontent">
@@ -96,6 +95,7 @@ div.tab a:focus, .active {
   <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
   <h3>Tab3</h3>
 </div>
+<div id="res" class="alert"></div>
 
 <script>
 function openCity(evt, cityName) {
@@ -122,7 +122,8 @@ document.getElementById("defaultOpen").click();
     <script type="text/javascript">
     function update_module_runner_form(module_name){
       $.get( "/getmoduleschema/"+module_name, function( json ) {
-	      jsonp = JSON.parse(json)
+	      var jsonp = JSON.parse(json)
+              console.log(jsonp);
 	      jsonp["onSubmit"] = function (errors, values) {
                       if (errors) {
                           $('#res').html('<p>I beg your pardon?</p>');
