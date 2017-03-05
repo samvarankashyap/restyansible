@@ -10,7 +10,7 @@ app = Flask(__name__,static_url_path='/static')
 def find(name, path):
     for dir in os.listdir(path):
         for file in os.listdir(path+dir+"/"):
-            if name in file:
+            if name == file.strip(".json"):
                 return path+dir+"/"+file
     
 
