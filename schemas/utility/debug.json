@@ -1,13 +1,12 @@
 {
     "schema": {
-        "name": {
+        "msg": {
             "type": "string",
-            "title": "Name",
-            "required": true
+            "title": "msg"
         },
-        "age": {
-            "type": "number",
-            "title": "Age"
+        "var": {
+            "type": "string",
+            "title": "var"
         }
     }
 }
