@@ -1,0 +1,8 @@
+- name: 'simple debug stat'
+  apt:
+    update_cache: yes
+    name: vim
+    state: present
+  async: 1000
+  poll: 0
+  register: sleeper
