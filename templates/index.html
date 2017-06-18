@@ -60,7 +60,8 @@ div.tab a:focus, .active {
 <div class="tab">
   <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab1')" id="defaultOpen">Schema Manager</a>
   <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab2')">Module Runner</a>
-  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab3')">Tab3</a>
+  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab3')">Task list </a>
+  <a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'tab4')">Tab4</a>
 </div>
 
 <div id="tab1" class="tabcontent">
@@ -93,8 +94,26 @@ div.tab a:focus, .active {
 
 <div id="tab3" class="tabcontent">
   <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
-  <h3>Tab3</h3>
+  <h3>Task List</h3>
+   <table class = "table table-striped">
+
+       <thead>
+          <tr>
+             <th>Task id</th>
+             <th>Operations</th>
+          </tr>
+       </thead>
+   <tbody id="task_table_body">
+   </tbody>
+   </table>
+
 </div>
+
+<div id="tab4" class="tabcontent">
+  <span onclick="this.parentElement.style.display='none'" class="topright">x</span>
+  <h3>Tab4</h3>
+</div>
+
 <div id="res" class="alert"></div>
 
 <script>
@@ -175,6 +194,27 @@ document.getElementById("defaultOpen").click();
             update_module_runner_form(current_module);
         }); 
     });
+    </script>
+    <script>
+$( document ).ready(function() {
+        console.log( "ready! this is task table" );
+        var task_table_html = "";
+        var module_runner_select_html = "";
+        $.get( "/gettasklist", function( json ) {
+            json = JSON.parse(json);
+            console.log(json)
+            for(key in json){
+                    task_table_html += "<tr>";
+                    task_table_html += "<td>" + json[key] + "</td>";
+                    console.log(json[key]);
+                    console.log(task_table_html);
+
+                    task_table_html += "<td> output </td>";
+                    task_table_html += "</tr>";
+            }
+            $("#task_table_body").html(task_table_html);
+            });
+        }); 
     </script>
   </body>
 </html>
