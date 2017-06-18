@@ -1,0 +1,11 @@
+- name: 'provisions ec2 instances'
+  ec2:
+    key_name: sk_key
+    instance_type: t2.micro
+    image: ami-efd0428f
+    wait: yes
+    count: 1
+    region: us-west-2
+  async: 1000
+  poll: 0
+  register: sleeper
